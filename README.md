@@ -288,34 +288,7 @@ El sitio incluye un **chatbot flotante** que proporciona atención al cliente au
 
 ---
 
-## 💬 Chatbot Interactivo
-
-El sitio incluye un **chatbot flotante** que proporciona atención al cliente automatizada en todas las páginas públicas.
-
-### Características:
-- **Botón Flotante:** Esquina inferior derecha con icono de comentarios
-- **Chat Interactivo:** Se abre/cierra al hacer click
-- **Respuestas Inteligentes:** Detecta palabras clave y proporciona información relevante
-- **Disponible en todas las páginas:** home.html, rooms.html, services.html, location.html, contact.html
-
-### Palabras Clave que Reconoce:
-| Palabra Clave | Respuesta |
-|--------------|-----------|
-| precio, costo, tarifa | Información de precios de habitaciones |
-| ubicación, donde, dirección | Ubicación del hotel (Guanacaste, Playa Danta) |
-| reserva, reservar, booking | Instrucciones para hacer reservas |
-| hola, hi, buenos | Saludo y bienvenida |
-| servicios | Lista de servicios disponibles |
-| habitación, room | Tipos de habitaciones disponibles |
-| teléfono, contacto, email | Información de contacto |
-
-### Archivos:
-- **CSS:** `public/assets/css/chatbot.css` - Estilos y animaciones
-- **JavaScript:** `public/assets/js/main.js` - Lógica del chatbot y respuestas
-
----
-
-## 📬 Contacto
+##  Contacto
 
 - **Email:** info@brisadelpacifico.com
 - **Reservas:** reservas@brisadelpacifico.com
@@ -324,4 +297,3 @@ El sitio incluye un **chatbot flotante** que proporciona atención al cliente au
 ---
 
 © 2026 Brisa del Pacífico. Todos los derechos reservados.
-
