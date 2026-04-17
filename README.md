@@ -18,21 +18,30 @@ hotel-brisa-del-pacifico/
 ├── public/
 │   └── assets/
 │       ├── css/
-│       │   └── style.css        # Estilos globales personalizados
+│       │   ├── style.css           # Estilos globales personalizados
+│       │   └── chatbot.css         # Estilos del chatbot flotante
 │       └── js/
-│           └── main.js          # Lógica JavaScript compartida
+│           └── main.js             # Lógica JavaScript + Chatbot
+├──  app/
+│    └── views/
+│       ├── home.html              # Página de inicio
+│       ├── rooms.html             # Catálogo de habitaciones
+│       ├── services.html          # Servicios del hotel
+│       ├── location.html          # Ubicación e mapa
+│       ├── contact.html           # Contacto y reservas
+│       ├── login.html             # Inicio de sesión
+│       ├── register.html          # Registro de usuario
+│       ├── reservation.html       # Formulario de reservación
+│       ├── dashboard.php          # Panel administrativo
+│       ├── dist/
+│       │   └── js/
+│       │       ├── calendar.js     # FullCalendar
+│       │       ├── sections.js     # Navegación de secciones
+│       │       └── charts.js       # Gráficas Chart.js
+│       └── plugins/                # Librerías (jQuery, Bootstrap, FontAwesome)
 └── app/
-    └── views/
-        ├── home.html            # Página de inicio (Hero + carrusel + habitaciones)
-        ├── rooms.html           # Catálogo completo de habitaciones
-        ├── services.html        # Servicios del hotel
-        ├── location.html        # Ubicación y mapa interactivo (Dantita Beach)
-        ├── contact.html         # Formulario de contacto y reservas
-        ├── login.html           # Inicio de sesión
-        ├── register.html        # Registro de usuario
-        ├── dashboard.php        # Panel administrativo oficial (AdminLTE 3)
-        ├── dist/                # Archivos CSS/JS de AdminLTE
-        └── plugins/             # Plugins de AdminLTE (jQuery, Bootstrap, FontAwesome)
+    └── users/
+        └── api_users.php          # Datos de los Usuarios (hardcodeados)
 ```
 
 ---
@@ -98,9 +107,99 @@ Las páginas públicas cargan sus dependencias vía CDN. El dashboard usa archiv
 | `contact.html`   | Formulario de contacto/reserva e información del hotel                   |
 | `login.html`     | Inicio de sesión — redirige al dashboard (admin) o home (usuario)        |
 | `register.html`  | Registro de nuevo usuario                                                |
-| `dashboard.php`  | Panel administrativo oficial con AdminLTE 3 — requiere Apache + PHP      |
+| `reservation.html`| Formulario de reservación de habitaciones                                |
+| `dashboard.php`  | Panel administrativo oficial con navegación dinámica entre secciones     |
 
 ---
+
+## 📊 Dashboard Administrativo
+
+El panel administrativo (`dashboard.php`) está basado en **AdminLTE 3** y es la versión oficial del proyecto. Se accede únicamente después de iniciar sesión como administrador.
+
+### 🗂 Secciones Dinámicas
+
+El dashboard se divide en **3 secciones principales** con navegación dinámica:
+
+#### 1️⃣ **Calendario de Reservas** (`section-calendar`)
+- Powered by **FullCalendar 6.1.10** con locale en español
+- Visualización mensual de eventos de reservas
+- Eventos coloreados por tipo de habitación:
+  - 🟦 **Estándar:** Azul (#3498db)
+  - 🟪 **Deluxe:** Púrpura (#9b59b6)
+  - 🟥 **Suite:** Rojo (#e74c3c)
+  - 🟧 **Suite Premium:** Naranja (#e67e22)
+- Datos persistentes en `localStorage` bajo la clave `hotel_reservations`
+- Sincronización automática con nuevas reservas
+
+#### 2️⃣ **Gráficos y Análisis** (`section-graphics`)
+- **4 gráficas interactivas** powered by **Chart.js 3.9.1**:
+  1. **Ventas por Mes** — Gráfico de barras (ingresos mensuales)
+  2. **Distribución de Habitaciones** — Gráfico de pastel (ocupación por tipo)
+  3. **Tendencia de Ocupación** — Gráfico de línea (últimos 12 meses)
+  4. **Canales de Reserva** — Gráfico de pastel (online, teléfono, presencial)
+  5. **Ocupación de Habitaciones** — Gráfico de barras por tipo
+
+#### 3️⃣ **Indicadores KPI** (`section-kpi`)
+Panel completo de métricas del negocio:
+
+**📦 Información de Habitaciones (8 info-boxes):**
+- Habitaciones Disponibles
+- Reservas Activas
+- Check-ins Hoy
+- Mensajes Pendientes
+- Ingresos Totales
+- Check-outs Hoy
+- Cancelaciones
+- ADR (Average Daily Rate)
+
+**📈 Estadísticas Principales (2 stat-cards):**
+- Satisfacción del Cliente (puntuación 1-5)
+- Estadísticas de Huéspedes (totales, nuevos, recurrentes)
+
+**📊 Barras de Progreso (3 progress-bars):**
+- Limpieza: 98%
+- Servicios: 95%
+- Quejas/Reclamaciones: 88%
+
+### 💾 Sistema de Almacenamiento
+
+El dashboard utiliza **localStorage** para persistencia de datos:
+
+```javascript
+// Estructura de reserva en localStorage
+{
+  id: 1,
+  guestName: "Juan García",
+  email: "juan@example.com",
+  phone: "+1234567890",
+  checkIn: "2026-04-18",
+  checkOut: "2026-04-21",
+  roomType: "Deluxe",
+  adults: 2,
+  children: 0,
+  totalPrice: "$660"
+}
+```
+
+**Requisitos para que funcione:**
+- Apache corriendo (XAMPP u otro servidor)
+- Carpetas `dist/`, `plugins/` y archivos JavaScript presentes
+
+### 🔄 Comunicación entre Componentes
+
+Los componentes se comunican usando **CustomEvent**:
+
+```javascript
+// Cuando se agrega una nueva reserva
+document.dispatchEvent(
+  new CustomEvent('reservationAdded', { detail: reservationData })
+);
+
+// El calendario escucha y se actualiza automáticamente
+document.addEventListener('reservationAdded', (e) => {
+  // Actualizar calendario con nueva reserva
+});
+```
 
 ## 🔐 Credenciales de Acceso (Login)
 
@@ -109,7 +208,10 @@ El login actualmente usa credenciales fijas definidas en `main.js`:
 | Rol           | Email                   | Contraseña  | Redirección      |
 |---------------|-------------------------|-------------|------------------|
 | Administrador | admin123@gmail.com      | admin123    | dashboard.php    |
-| Usuario       | user123@gmail.com       | user123     | home.html        |
+| Usuario       | user1@example.com       | password1     | home.html        |
+| Usuario       | user2@example.com       | password2     | home.html        |
+| Usuario       | user3@example.com       | password3     | home.html        |
+| Usuario       | user4@example.com       | password4     | home.html        |
 
 > ⚠️ Estas credenciales son de prueba y están expuestas en el código frontend. No deben usarse en producción.
 
@@ -138,22 +240,55 @@ Las variables CSS están definidas en `style.css` y controlan la identidad visua
 
 ---
 
-## 📊 Dashboard Administrativo
+## � Chatbot Interactivo
 
-El panel administrativo (`dashboard.php`) está basado en **AdminLTE 3** y es la versión oficial del proyecto. Se accede únicamente después de iniciar sesión como administrador.
+El sitio incluye un **chatbot flotante** que proporciona atención al cliente automatizada en todas las páginas públicas.
 
-**Requisitos para que funcione:**
-- Apache corriendo (XAMPP u otro servidor)
-- Carpetas `dist/` y `plugins/` presentes en `app/views/`
+### Características:
+- **Botón Flotante:** Esquina inferior derecha con icono de comentarios
+- **Chat Interactivo:** Se abre/cierra al hacer click
+- **Respuestas Inteligentes:** Detecta palabras clave y proporciona información relevante
+- **Disponible en todas las páginas:** home.html, rooms.html, services.html, location.html, contact.html
+
+### Palabras Clave que Reconoce:
+| Palabra Clave | Respuesta |
+|--------------|-----------|
+| precio, costo, tarifa | Información de precios de habitaciones |
+| ubicación, donde, dirección | Ubicación del hotel (Guanacaste, Playa Danta) |
+| reserva, reservar, booking | Instrucciones para hacer reservas |
+| hola, hi, buenos | Saludo y bienvenida |
+| servicios | Lista de servicios disponibles |
+| habitación, room | Tipos de habitaciones disponibles |
+| teléfono, contacto, email | Información de contacto |
+
+### Archivos:
+- **CSS:** `public/assets/css/chatbot.css` - Estilos y animaciones
+- **JavaScript:** `public/assets/js/main.js` - Lógica del chatbot y respuestas
 
 ---
 
 ## 📝 Notas del Desarrollador
 
 - El formulario de contacto simula el envío con un `setTimeout` — no realiza peticiones reales a un servidor.
-- El login usa credenciales hardcodeadas en `main.js` — en producción debe conectarse a un backend real.
-- El botón de `login.html` tiene `onclick="login()"` que debe cambiarse a `type="submit"` ya que la función `login()` no existe.
-- Los inputs de email y contraseña en `login.html` no tienen el atributo `required` — se recomienda agregarlo.
+- El login usa credenciales hardcodeadas en `api_users.php` — en producción debe conectarse a un backend real. Además, al salir de la página.
+los datos ingresados no se guardan.
+- El registro simula una creación de una cuenta de usuario — no realiza registros reales a un servidor.
+- El sistema de reservas usa `localStorage` — los datos se pierden si el usuario limpia el caché del navegador.
+- El sistema de reservas no valida si la cantidad de noches coincide
+con la cantidad de noches ingresadas por el usuario a travez del calendario.
+- Las reservas de demostración se crean automáticamente la primera vez que se carga el dashboard.
+- El chatbot utiliza respuestas estáticas — en producción puede conectarse a un backend con IA.
+
+---
+
+## 🔧 Archivos JavaScript del Dashboard
+
+| Archivo              | Descripción                                                                |
+|----------------------|----------------------------------------------------------------------------|
+| `dist/js/calendar.js`| Inicializa FullCalendar, obtiene eventos de localStorage, mapea colores    |
+| `dist/js/sections.js`| Maneja la navegación dinámmica entre secciones del dashboard                |
+| `dist/js/charts.js`  | Crea las 5 gráficas Chart.js con datos estáticos/dinámicos                 |
+| `public/assets/js/main.js`| ReservationManager, formularios, chatbot interactivo y navegación |
 
 ---
 
