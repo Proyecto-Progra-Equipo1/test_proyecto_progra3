@@ -10,7 +10,6 @@
  *
  * Dependencias: jQuery 3.7+, Bootstrap 5.3+
  */
-// test
 
 $(document).ready(function () {
 
