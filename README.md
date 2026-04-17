@@ -18,26 +18,27 @@ hotel-brisa-del-pacifico/
 ├── public/
 │   └── assets/
 │       ├── css/
-│       │   └── style.css        # Estilos globales personalizados
+│       │   ├── style.css           # Estilos globales personalizados
+│       │   └── chatbot.css         # Estilos del chatbot flotante
 │       └── js/
-│           └── main.js          # Lógica JavaScript compartida + ReservationManager
+│           └── main.js             # Lógica JavaScript + Chatbot
 └── app/
     └── views/
-        ├── home.html            # Página de inicio (Hero + carrusel + habitaciones)
-        ├── rooms.html           # Catálogo completo de habitaciones
-        ├── services.html        # Servicios del hotel
-        ├── location.html        # Ubicación y mapa interactivo (Dantita Beach)
-        ├── contact.html         # Formulario de contacto y reservas
-        ├── login.html           # Inicio de sesión
-        ├── register.html        # Registro de usuario
-        ├── reservation.html     # Formulario de reservación de habitaciones
-        ├── dashboard.php        # Panel administrativo con navegación dinámica de secciones
+        ├── home.html              # Página de inicio
+        ├── rooms.html             # Catálogo de habitaciones
+        ├── services.html          # Servicios del hotel
+        ├── location.html          # Ubicación e mapa
+        ├── contact.html           # Contacto y reservas
+        ├── login.html             # Inicio de sesión
+        ├── register.html          # Registro de usuario
+        ├── reservation.html       # Formulario de reservación
+        ├── dashboard.php          # Panel administrativo
         ├── dist/
         │   └── js/
-        │       ├── calendar.js   # Inicialización de FullCalendar y gestión de eventos
-        │       ├── sections.js   # Sistema de navegación entre secciones
-        │       └── charts.js     # Inicialización de gráficas Chart.js
-        └── plugins/             # Plugins de AdminLTE (jQuery, Bootstrap, FontAwesome)
+        │       ├── calendar.js     # FullCalendar
+        │       ├── sections.js     # Navegación de secciones
+        │       └── charts.js       # Gráficas Chart.js
+        └── plugins/               # Librerías (jQuery, Bootstrap, FontAwesome)
 ```
 
 ---
@@ -237,6 +238,33 @@ Las variables CSS están definidas en `style.css` y controlan la identidad visua
 
 ---
 
+## � Chatbot Interactivo
+
+El sitio incluye un **chatbot flotante** que proporciona atención al cliente automatizada en todas las páginas públicas.
+
+### Características:
+- **Botón Flotante:** Esquina inferior derecha con icono de comentarios
+- **Chat Interactivo:** Se abre/cierra al hacer click
+- **Respuestas Inteligentes:** Detecta palabras clave y proporciona información relevante
+- **Disponible en todas las páginas:** home.html, rooms.html, services.html, location.html, contact.html
+
+### Palabras Clave que Reconoce:
+| Palabra Clave | Respuesta |
+|--------------|-----------|
+| precio, costo, tarifa | Información de precios de habitaciones |
+| ubicación, donde, dirección | Ubicación del hotel (Guanacaste, Playa Danta) |
+| reserva, reservar, booking | Instrucciones para hacer reservas |
+| hola, hi, buenos | Saludo y bienvenida |
+| servicios | Lista de servicios disponibles |
+| habitación, room | Tipos de habitaciones disponibles |
+| teléfono, contacto, email | Información de contacto |
+
+### Archivos:
+- **CSS:** `public/assets/css/chatbot.css` - Estilos y animaciones
+- **JavaScript:** `public/assets/js/main.js` - Lógica del chatbot y respuestas
+
+---
+
 ## 📝 Notas del Desarrollador
 
 - El formulario de contacto simula el envío con un `setTimeout` — no realiza peticiones reales a un servidor.
@@ -245,6 +273,7 @@ Las variables CSS están definidas en `style.css` y controlan la identidad visua
 - Los inputs de email y contraseña en `login.html` no tienen el atributo `required` — se recomienda agregarlo.
 - El sistema de reservas usa `localStorage` — los datos se pierden si el usuario limpia el caché del navegador.
 - Las reservas de demostración se crean automáticamente la primera vez que se carga el dashboard.
+- El chatbot utiliza respuestas estáticas — en producción puede conectarse a un backend con IA.
 
 ---
 
@@ -255,7 +284,34 @@ Las variables CSS están definidas en `style.css` y controlan la identidad visua
 | `dist/js/calendar.js`| Inicializa FullCalendar, obtiene eventos de localStorage, mapea colores    |
 | `dist/js/sections.js`| Maneja la navegación dinámmica entre secciones del dashboard                |
 | `dist/js/charts.js`  | Crea las 5 gráficas Chart.js con datos estáticos/dinámicos                 |
-| `public/assets/js/main.js`| Clase ReservationManager para gestión de reservas, formulario de contacto   |
+| `public/assets/js/main.js`| ReservationManager, formularios, chatbot interactivo y navegación |
+
+---
+
+## 💬 Chatbot Interactivo
+
+El sitio incluye un **chatbot flotante** que proporciona atención al cliente automatizada en todas las páginas públicas.
+
+### Características:
+- **Botón Flotante:** Esquina inferior derecha con icono de comentarios
+- **Chat Interactivo:** Se abre/cierra al hacer click
+- **Respuestas Inteligentes:** Detecta palabras clave y proporciona información relevante
+- **Disponible en todas las páginas:** home.html, rooms.html, services.html, location.html, contact.html
+
+### Palabras Clave que Reconoce:
+| Palabra Clave | Respuesta |
+|--------------|-----------|
+| precio, costo, tarifa | Información de precios de habitaciones |
+| ubicación, donde, dirección | Ubicación del hotel (Guanacaste, Playa Danta) |
+| reserva, reservar, booking | Instrucciones para hacer reservas |
+| hola, hi, buenos | Saludo y bienvenida |
+| servicios | Lista de servicios disponibles |
+| habitación, room | Tipos de habitaciones disponibles |
+| teléfono, contacto, email | Información de contacto |
+
+### Archivos:
+- **CSS:** `public/assets/css/chatbot.css` - Estilos y animaciones
+- **JavaScript:** `public/assets/js/main.js` - Lógica del chatbot y respuestas
 
 ---
 
@@ -268,3 +324,4 @@ Las variables CSS están definidas en `style.css` y controlan la identidad visua
 ---
 
 © 2026 Brisa del Pacífico. Todos los derechos reservados.
+
