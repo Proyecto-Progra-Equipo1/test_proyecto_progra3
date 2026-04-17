@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brisa del Pacifico - Servicios</title>
-    <!-- Bootstrap CSS -->
+    <title>Brisa del Pacifico - Iniciar Sesión</title>
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../../public/assets/css/style.css">
+
     <style>
         .encabezado-pagina {
-            background: linear-gradient(rgba(10, 37, 64, 0.7), rgba(10, 37, 64, 0.7)), url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(10, 37, 64, 0.7), rgba(10, 37, 64, 0.7)), url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             padding: 100px 0 60px;
@@ -40,8 +41,6 @@
                     <li class="nav-item"><a class="nav-link" href="services.html">Servicios</a></li>
                     <li class="nav-item"><a class="nav-link" href="location.html">Ubicación</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-dorado ms-lg-3"
-                            href="login.html">Afiliarse</a></li>
                 </ul>
             </div>
         </div>
@@ -50,76 +49,43 @@
     <!-- Page Header -->
     <div class="encabezado-pagina">
         <div class="container">
-            <h1 class="display-4">Nuestros Servicios</h1>
-            <p class="lead">Todo lo que necesita para una estadía perfecta</p>
+            <h1 class="display-4">Inicio de Sesión</h1>
+            <p class="lead">Afíliate con nosotros para una experiencia de lujo en Brisa del Pacifico</p>
         </div>
     </div>
 
-    <!-- Services Section -->
-    <section class="espaciado-seccion pt-0">
+    <!-- Login -->
+    <section class="espaciado-seccion">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="card p-4 shadow-lg">
+                        <h3 class="text-center mb-4">Iniciar Sesión</h3>
 
-                <!-- Service 1: Restaurant -->
-                <div class="col-md-4 mb-5">
-                    <div class="tarjeta-servicio rounded">
-                        <i class="fas fa-utensils icono-servicio"></i>
-                        <h4>Restaurante Gourmet</h4>
-                        <p class="text-muted">Disfrute de la mejor cocina internacional preparada por nuestro chef
-                            galardonado. Abierto para desayuno, almuerzo y cena.</p>
+                        <form id="formularioLogin">
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label>Correo Electrónico</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label>Contraseña</label>
+                                <input type="password" id="password" class="form-control" required>
+                            </div>
+
+                            <!-- BTN Login -->
+                            <button type="submit" class="btn btn-dorado w-100">
+                                Ingresar
+                            </button>
+
+                            <!-- Register Link -->
+                            <p class="text-center mt-3">¿No tienes cuenta? <a href="../../app/views/register.html">Regístrate aquí</a>
+                            </p>
+                        </form>
                     </div>
                 </div>
-
-                <!-- Service 2: Spa -->
-                <div class="col-md-4 mb-5">
-                    <div class="tarjeta-servicio rounded">
-                        <i class="fas fa-spa icono-servicio"></i>
-                        <h4>Spa & Bienestar</h4>
-                        <p class="text-muted">Relájese con nuestros tratamientos exclusivos, masajes, sauna y piscina
-                            climatizada.</p>
-                    </div>
-                </div>
-
-                <!-- Service 3: Gym -->
-                <div class="col-md-4 mb-5">
-                    <div class="tarjeta-servicio rounded">
-                        <i class="fas fa-dumbbell icono-servicio"></i>
-                        <h4>Gimnasio Equipado</h4>
-                        <p class="text-muted">Mantenga su rutina con equipos de última generación. Acceso 24 horas para
-                            huéspedes.</p>
-                    </div>
-                </div>
-
-                <!-- Service 4: Tours -->
-                <div class="col-md-4 mb-5">
-                    <div class="tarjeta-servicio rounded">
-                        <i class="fas fa-map-marked-alt icono-servicio"></i>
-                        <h4>Tours Locales</h4>
-                        <p class="text-muted">Organizamos excursiones guiadas para que descubra los secretos de nuestra
-                            ciudad y sus alrededores.</p>
-                    </div>
-                </div>
-
-                <!-- Service 5: Concierge -->
-                <div class="col-md-4 mb-5">
-                    <div class="tarjeta-servicio rounded">
-                        <i class="fas fa-concierge-bell icono-servicio"></i>
-                        <h4>Concierge 24/7</h4>
-                        <p class="text-muted">Nuestro equipo está listo para ayudarle con reservas, transporte y
-                            cualquier requerimiento especial.</p>
-                    </div>
-                </div>
-
-                <!-- Service 6: Events -->
-                <div class="col-md-4 mb-5">
-                    <div class="tarjeta-servicio rounded">
-                        <i class="fas fa-glass-cheers icono-servicio"></i>
-                        <h4>Eventos y Bodas</h4>
-                        <p class="text-muted">Salones elegantes y servicio de catering para hacer de su evento un
-                            momento inolvidable.</p>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -160,6 +126,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../../public/assets/js/main.js"></script>
+
 </body>
 
 </html>
