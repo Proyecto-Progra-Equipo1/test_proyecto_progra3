@@ -39,46 +39,205 @@ $(document).ready(function () {
     //  3. Si un campo está vacío, marca el campo como inválido (clase Bootstrap 'is-invalid').
     //  4. Si todos son válidos, simula una llamada AJAX con setTimeout de 1.5 segundos.
     //  5. Muestra un mensaje de éxito y resetea el formulario.
-    $('#formularioReservacion, #formularioContacto').on('submit', function (e) {
-        e.preventDefault(); // Evita recarga de página
 
+    // -- Form Data Validation --
+    $('#formularioReservacion, #formularioContacto').on('submit', function(e) {
+        e.preventDefault();
+        
         let isValid = true;
         const form = $(this);
-
-        // Validación: verifica que ningún campo requerido esté vacío
-        form.find('input[required], textarea[required], select[required]').each(function () {
+        
+        // Simple fake validation
+        form.find('input[required], textarea[required], select[required]').each(function() {
             if ($(this).val() === '') {
                 isValid = false;
-                $(this).addClass('is-invalid');    // Muestra mensaje de error Bootstrap
+                $(this).addClass('is-invalid');
             } else {
                 $(this).removeClass('is-invalid');
-                $(this).addClass('is-valid');      // Muestra check verde Bootstrap
+                $(this).addClass('is-valid');
             }
         });
 
         if (isValid) {
-            // Simulación de envío AJAX:
-            // En producción, reemplazar este bloque con una llamada real
-            // usando fetch() o $.ajax() apuntando al endpoint del backend.
+            // Simulate AJAX request
             const btn = form.find('button[type="submit"]');
             const originalText = btn.text();
-
-            // Deshabilita el botón para evitar envíos duplicados
+            
             btn.text('Enviando...').prop('disabled', true);
+            
+            setTimeout(function() {
+                alert('¡Solicitud enviada con éxito! Regresando a la página principal...');
+                form[0].reset();
+                form.find('.is-valid').removeClass('is-valid');
+                btn.text(originalText).prop('disabled', false);
 
-            // Simula latencia de red (1500ms)
-            setTimeout(function () {
-                alert('¡Solicitud enviada con éxito! Nos pondremos en contacto pronto.');
-                form[0].reset();                                  // Limpia el formulario
-                form.find('.is-valid').removeClass('is-valid');   // Quita estados visuales
-                btn.text(originalText).prop('disabled', false);  // Rehabilita el botón
+                window.location.href = "../../app/views/home.html";
             }, 1500);
-
         } else {
-            // Si hay campos vacíos, muestra alerta y detiene el proceso
             alert('Por favor complete todos los campos requeridos.');
         }
     });
+
+    // =========================================================
+    // INICIO SESIÓN — Validación y envío simulado
+    // =========================================================
+    // Aplica la lógica al formulario de inicio de sesión (#formularioLogin) en login.html.
+    //
+    // Flujo:
+    //  1. Previene el envío nativo del formulario (preventDefault).
+    //  2. Obtiene el email y contraseña ingresados por el usuario.
+    //  3. Simula una llamada AJAX para validar las credenciales 
+    //  contra un API creada (api_users.php) con usuarios ya quemados.
+    //  4. Si las credenciales son correctas, muestra un mensaje de bienvenida y redirige a home.html.
+    //     Si el usuario es admin, redirige a dashboard.php.
+    //  5. Si las credenciales son incorrectas, muestra un mensaje de error.
+    //  6. Si todos son válidos, simula una llamada AJAX con setTimeout de 1.5 segundos.
+    //  7. Muestra un mensaje de éxito y resetea el formulario.
+
+    // -- Login User Validation --
+    $('#formularioLogin').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Form & Button
+        const form = $(this);
+        const btn = form.find('button[type="submit"]');
+        const originalText = btn.text();
+
+        // Data
+        const email = form.find('#email').val();
+        const password = form.find('#password').val();
+
+        btn.text('Verificando...').prop('disabled', true);
+
+        // User Validation
+        $.ajax({
+            url: '../../api/users/api_users.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Check User Existence
+                const user = data.users.find(u => u.email === email && u.password === password);
+
+                if (user) {
+                    // Admin Validation
+                    if (user.email === "admin123@gmail.com" && user.password === "admin123") {
+                        setTimeout(function() {
+                            alert('¡Bienvenido Administrador!');
+                            window.location.href = "../../app/views/dashboard.php";
+                            form[0].reset();
+                            form.find('.is-valid').removeClass('is-valid');
+                            btn.text(originalText).prop('disabled', false);
+                        }, 1500);
+                    } else {
+                        setTimeout(function() {
+                            alert('¡Bienvenido ' + user.name + '!');
+                            window.location.href = "../../app/views/home.html";
+                            form[0].reset();
+                            form.find('.is-valid').removeClass('is-valid');
+                            btn.text(originalText).prop('disabled', false);
+                        }, 1500);
+                    }
+                } else {
+                    alert('Credenciales incorrectas. Por favor intente de nuevo.');
+                    form[0].reset();
+                    form.find('.is-valid').removeClass('is-valid');
+                    btn.text(originalText).prop('disabled', false);
+                }
+            }
+        });
+    });
+
+    // =========================================================
+    // REGISTRO DE USUARIOS — Validación, funciones y envío simulado
+    // =========================================================
+    // Aplica la lógica al formulario de registro (#formularioRegistro) en register.html.
+    //
+    // Flujo:
+    //  1. Previene el envío nativo del formulario (preventDefault).
+    //  2. Obtiene el email ingresado por el usuario.
+    //  3. Simula una llamada AJAX para verificar si el email ya está registrado.
+    //  4. Si el email no está registrado, muestra un mensaje de éxito y redirige a home.html.
+    //  5. Si el email ya está registrado, muestra un mensaje de error.
+    //  6. Si todos son válidos, simula una llamada AJAX con setTimeout de 1.5 segundos.
+    //  7. Muestra un mensaje de éxito y resetea el formulario.
+    //
+    // Funciones adicionales:
+    // Crea un objeto 'prices' con los precios de cada tipo de habitación.
+    // Crea una función 'updatePrice' que calcula el precio total basado en la habitación seleccionada y el número de noches.
+    // Asocia la función 'updatePrice' al evento 'change' del select de habitaciones (#selRooms) y al input de noches (#nights).
+    // Ejecuta 'updatePrice' al cargar la página para mostrar el precio inicial (al menos una vez).
+
+    // -- Register User Validation --
+    $('#formularioRegistro').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Form & Button
+        const form = $(this);
+        const btn = form.find('button[type="submit"]');
+        const originalText = btn.text();
+
+        // Data
+        const email = form.find('#email').val();
+
+        // User Registration Check
+        $.ajax({
+            url: '../../api/users/api_users.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                btn.text('Registrando...').prop('disabled', true);
+
+                // Check Email Existence
+                const userExists = data.users.some(u => u.email === email);
+
+                // Simulate Registration Process
+                if (userExists) {
+                    alert('Esta cuenta ya existe. Por favor digite otro correo electrónico.');
+                    form[0].reset();
+                    form.find('.is-valid').removeClass('is-valid');
+                    btn.text(originalText).prop('disabled', false);
+                } else {
+                    setTimeout(function() {
+                        alert('¡Registro completado correctamente! Bienvenido estimado cliente.');
+                        window.location.href = "../../app/views/home.html";
+                        form[0].reset();
+                        form.find('.is-valid').removeClass('is-valid');
+                        btn.text(originalText).prop('disabled', false);
+                    }, 1500);
+                }
+            }
+        });
+    });
+
+    // -- Reservation Form Funtionality --
+    // Prices
+    const prices = {
+        estandar: 150,
+        deluxe: 220,
+        familiar: 300,
+        presidencial: 450
+    };
+
+    // Function Dinamic Price
+    function updatePrice() {
+        // Get Room & Nights
+        const room = $('#selRooms').val();
+        const nights = parseInt($('#nights').val()) || 0;
+
+        // Calculate Total
+        if (room && prices[room] && nights > 0) {
+            const priceNights = prices[room];
+            const total = priceNights * nights;
+
+            $('#totalPayment').val("$" + total.toLocaleString() + " USD");
+        }
+    }
+
+    // Dinamic Price Event
+    $('#selRooms').on('change', updatePrice);
+
+    // Exec Reservation Price on Load
+    updatePrice();
 
     // =========================================================
     // BOOTSTRAP — Inicialización de Tooltips
