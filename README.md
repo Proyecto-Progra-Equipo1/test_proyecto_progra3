@@ -39,7 +39,7 @@ hotel-brisa-del-pacifico/
 │       │       ├── sections.js     # Navegación de secciones
 │       │       └── charts.js       # Gráficas Chart.js
 │       └── plugins/                # Librerías (jQuery, Bootstrap, FontAwesome)
-└── app/
+└── api/
     └── users/
         └── api_users.php          # Datos de los Usuarios (hardcodeados)
 ```
