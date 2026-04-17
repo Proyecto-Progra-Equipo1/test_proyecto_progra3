@@ -1,20 +1,18 @@
-<!--
-    * api_users.php — API Simulada para Usuarios
-    * Hotel Brisa del Pacífico
-    * 
-    * Este archivo PHP simula una API que devuelve un listado de usuarios en formato JSON.
-    * Está diseñado para ser consumido por el frontend (main.js) durante el proceso de login.
-    * 
-    * Estructura del Código:
-    * 1. Definición de un array de usuarios con campos: name, email y password (quemados para demostración).
-    * 2. Configuración de la cabecera para indicar que la respuesta es JSON.
-    * 3. Codificación del array de usuarios en formato JSON y envío como respuesta.
-    * 
-    * Nota: En un entorno real, los datos de los usuarios no deberían estar quemados ni almacenados en texto plano.
-    *       Este ejemplo es una pequeña simulación de una API para fines demostración del proyecto.
- -->
-
 <?php
+// * api_users.php — API Simulada para Usuarios
+// * Hotel Brisa del Pacífico
+// * 
+// * Este archivo PHP simula una API que devuelve un listado de usuarios en formato JSON.
+// * Está diseñado para ser consumido por el frontend (main.js) durante el proceso de login.
+// * 
+// * Estructura del Código:
+// * 1. Definición de un array de usuarios con campos: name, email y password (quemados para demostración).
+// * 2. Configuración de la cabecera para indicar que la respuesta es JSON.
+// * 3. Codificación del array de usuarios en formato JSON y envío como respuesta.
+// * 
+// * Nota: En un entorno real, los datos de los usuarios no deberían estar quemados ni almacenados en texto plano.
+// *       Este ejemplo es una pequeña simulación de una API para fines demostración del proyecto.
+
 // Users Array (Hardcoded for demonstration)
 $dataUsers = [
     ["name" => "Admin", "email" => "admin123@gmail.com", "password" => "admin123"],
